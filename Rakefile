@@ -5,14 +5,12 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "wriggle"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{A simple directory crawler DSL.}
+    gem.description = %Q{A simple directory crawler DSL.}
     gem.email = "rspeicher@gmail.com"
     gem.homepage = "http://github.com/tsigo/wriggle"
     gem.authors = ["rspeicher"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    gem.add_development_dependency "yard", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.add_development_dependency "rspec", "~> 1.3.0"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
