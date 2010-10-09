@@ -28,9 +28,11 @@ A simple directory crawler DSL.
 
 ## Note on Patches/Pull Requests
 
-* Fork the project.
-* Make your feature addition or bug fix, including specs.
-* Commit, push, pull request.
+* Fork
+* Code
+* Commit
+* Push
+* Pull Request
 
 ## Copyright
 
