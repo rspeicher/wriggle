@@ -6,7 +6,7 @@ A simple directory crawler DSL.
 
     require 'wriggle'
 
-    Wriggle '/path/to/files' do
+    wriggle '/path/to/files' do
 
       # Build an array of Ruby code files
       ruby_files = []
