@@ -32,6 +32,6 @@ A simple directory crawler DSL.
 * Make your feature addition or bug fix, including specs.
 * Commit, push, pull request.
 
-== Copyright
+## Copyright
 
 Copyright (c) 2010 rspeicher. See LICENSE for details.
