@@ -26,7 +26,8 @@ Gem::Specification.new do |s|
      "lib/wriggle.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
-     "spec/wriggle_spec.rb"
+     "spec/wriggle_spec.rb",
+     "wriggle.gemspec"
   ]
   s.homepage = %q{http://github.com/tsigo/wriggle}
   s.rdoc_options = ["--charset=UTF-8"]
