@@ -36,4 +36,4 @@ A simple directory crawler DSL.
 
 ## Copyright
 
-Copyright (c) 2010 rspeicher. See LICENSE for details.
+Copyright (c) 2010 Robert Speicher. See LICENSE for details.
