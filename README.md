@@ -22,7 +22,7 @@ A simple directory crawler DSL.
 
       # Delete directories that are empty
       directory do |path|
-        Dir.rmdir(path) unless Dir.entries.length > 2
+        Dir.rmdir(path) unless Dir.entries(path).length > 2
       end
     end
 
