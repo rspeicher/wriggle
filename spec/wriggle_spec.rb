@@ -22,13 +22,13 @@ describe Wriggle do
   context "given a valid path" do
     describe "#file" do
       it "should raise an ArgumentError when not given a block" do
-        lambda { wriggle(valid_dir) { file } }.should raise_error(ArgumentError, /a block is required/)
+        lambda { wriggle(valid_dir) { |w| w.file } }.should raise_error(ArgumentError, /a block is required/)
       end
 
       it "should not include directories when only a file block is provided" do
         actual = []
-        wriggle(valid_dir) do
-          file do |path|
+        wriggle(valid_dir) do |w|
+          w.file do |path|
             actual << path
           end
         end
@@ -40,8 +40,8 @@ describe Wriggle do
 
       it "should only include files of the type specified" do
         actual = []
-        wriggle(valid_dir) do
-          file :rb do |path|
+        wriggle(valid_dir) do |w|
+          w.file :rb do |path|
             actual << path
           end
         end
@@ -54,13 +54,13 @@ describe Wriggle do
 
     describe "#directory" do
       it "should raise an ArgumentError when not given a block" do
-        lambda { wriggle(valid_dir) { directory } }.should raise_error(ArgumentError, /a block is required/)
+        lambda { wriggle(valid_dir) { |w| w.directory } }.should raise_error(ArgumentError, /a block is required/)
       end
 
       it "should not include files when only a directory block is provided" do
         actual = []
-        wriggle(valid_dir) do
-          directory do |path|
+        wriggle(valid_dir) do |w|
+          w.directory do |path|
             actual << path
           end
         end
