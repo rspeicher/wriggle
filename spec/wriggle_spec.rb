@@ -33,7 +33,7 @@ describe Wriggle do
           end
         end
 
-        actual.should include("#{valid_dir}/spec.opts")
+        actual.should include("#{valid_dir}/empty.txt")
         actual.should include("#{valid_dir}/wriggle_spec.rb")
         actual.should_not include("#{valid_dir}/spec")
       end
@@ -47,7 +47,7 @@ describe Wriggle do
         end
 
         actual.should include("#{valid_dir}/wriggle_spec.rb")
-        actual.should_not include("#{valid_dir}/spec.opts")
+        actual.should_not include("#{valid_dir}/empty.txt")
         actual.should_not include("#{valid_dir}")
       end
     end
