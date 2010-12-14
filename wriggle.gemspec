@@ -10,10 +10,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Robert Speicher"]
   s.date = %q{2010-12-14}
-  s.default_executable = %q{wriggle}
   s.description = %q{A simple directory crawler DSL.}
   s.email = %q{rspeicher@gmail.com}
-  s.executables = ["wriggle"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.md"
