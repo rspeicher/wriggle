@@ -49,9 +49,9 @@ module Wriggle
     end
 
     def crawl(&block)
-      Find.find(root) do |current|
-        yield self
+      yield self
 
+      Find.find(root) do |current|
         if File.file?(current)
           dispatch_file(current)
         elsif File.directory?(current)
