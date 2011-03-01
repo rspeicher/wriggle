@@ -9,7 +9,6 @@ require 'find'
 #   require 'wriggle'
 #
 #   wriggle '/path/to/files' do |w|
-#
 #     # Build an array of Ruby code files
 #     ruby_files = []
 #     w.file :rb do |path|
@@ -18,13 +17,18 @@ require 'find'
 #
 #     # Build an array of video files
 #     video_files = []
-#     w.file %w(mpg mpeg wmv avi mkv) do |path|
+#     w.files %w(mpg mpeg wmv avi mkv) do |path|
 #       video_files << path
 #     end
 #
 #     # Delete directories that are empty
-#     w.directory do |path|
+#     w.directories do |path|
 #       Dir.rmdir(path) unless Dir.entries(path).length > 2
+#     end
+#
+#     # Print a list of directories with "foo" in the path
+#     w.directory /foo/ do |path|
+#       puts path
 #     end
 #   end
 module Wriggle
@@ -78,9 +82,9 @@ module Wriggle
     # Define a block to be called when a directory is encountered
     #
     # @raise ArgumentError When no block provided
-    def directory(&block)
+    def directory(*patterns, &block)
       raise ArgumentError, "a block is required" unless block_given?
-      directory_blocks << {:block => block}
+      directory_blocks << {:pattern => patterns.flatten, :block => block}
     end
 
     alias_method :files, :file
@@ -106,7 +110,15 @@ module Wriggle
 
     def dispatch_directory(path)
       directory_blocks.each do |group|
-        group[:block].call(path)
+        if group[:pattern].empty?
+          group[:block].call(path)
+        else
+          # Requested only directories matching a certain pattern
+          # Check if any of the patterns match the directory name
+          if group[:pattern].any? { |v| path =~ v }
+            group[:block].call(path)
+          end
+        end
       end
     end
   end

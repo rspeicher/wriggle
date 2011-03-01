@@ -90,5 +90,20 @@ describe Wriggle, "#directory" do
     actual.should_not include("#{TemporaryFiles.path}/models/member.rb")
   end
 
-  it "should only include directories matching a pattern when given an argument"
+  it "should only include directories matching a pattern when given an argument" do
+    actual = []
+    wriggle(TemporaryFiles.path) do |w|
+      w.directory /member/, /model/ do |path|
+        actual << path
+      end
+    end
+
+    actual.should include("#{TemporaryFiles.path}/app/controllers/members")
+    actual.should include("#{TemporaryFiles.path}/app/helpers/members")
+    actual.should include("#{TemporaryFiles.path}/app/views/members")
+    actual.should include("#{TemporaryFiles.path}/app/views/members/wishlists")
+    actual.should include("#{TemporaryFiles.path}/app/models")
+    actual.should_not include("#{TemporaryFiles.path}/app/views/items")
+    actual.should_not include("#{TemporaryFiles.path}/app/views/layouts")
+  end
 end

@@ -7,7 +7,6 @@ A simple directory crawler DSL.
     require 'wriggle'
 
     wriggle '/path/to/files' do |w|
-
       # Build an array of Ruby code files
       ruby_files = []
       w.file :rb do |path|
@@ -16,13 +15,18 @@ A simple directory crawler DSL.
 
       # Build an array of video files
       video_files = []
-      w.file %w(mpg mpeg wmv avi mkv) do |path|
+      w.files %w(mpg mpeg wmv avi mkv) do |path|
         video_files << path
       end
 
       # Delete directories that are empty
-      w.directory do |path|
+      w.directories do |path|
         Dir.rmdir(path) unless Dir.entries(path).length > 2
+      end
+
+      # Print a list of directories with "foo" in the path
+      w.directory /foo/ do |path|
+        puts path
       end
     end
 
