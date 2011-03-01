@@ -83,6 +83,9 @@ module Wriggle
       directory_blocks << {:block => block}
     end
 
+    alias_method :files, :file
+    alias_method :directories, :directory
+
     private
 
     def dispatch_file(path)

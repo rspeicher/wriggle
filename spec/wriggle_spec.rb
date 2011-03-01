@@ -14,12 +14,10 @@ describe Wriggle do
   end
 
   it "should alias 'files' to 'file'" do
-    pending
     expect { wriggle(TemporaryFiles.path) { |w| w.files } }.to_not raise_error(NoMethodError)
   end
 
   it "should alias 'directories' to 'directory'" do
-    pending
     expect { wriggle(TemporaryFiles.path) { |w| w.directories } }.to_not raise_error(NoMethodError)
   end
 end
