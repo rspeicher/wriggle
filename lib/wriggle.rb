@@ -43,8 +43,6 @@ module Wriggle
   end
 
   class Wriggle
-    attr_accessor :root, :file_blocks, :directory_blocks
-
     def initialize(root, &block)
       @root             = root
       @file_blocks      = []
@@ -53,10 +51,56 @@ module Wriggle
       crawl(&block)
     end
 
+    # Define a block to be called when a file is encountered
+    #
+    # @example All files
+    #   file { |file| ... }
+    # @example All <tt>.rb</tt> files
+    #   file '.rb' { |file| ... }
+    # @example All <tt>.rb</tt> or <tt>.erb</tt> files
+    #   files :rb, :erb { |file| ... }
+    # @example All video files
+    #   files %w(mpeg mpeg wmv avi mkv) { |file| ... }
+    #
+    # @param [Array] extensions Limit the yielded file paths to the provided extensions
+    # @yield [path] Full, absolute file path
+    # @raise ArgumentError When no block provided
+    def file(*extensions, &block)
+      raise ArgumentError, "a block is required" unless block_given?
+      @file_blocks << {:ext => extensions.flatten, :block => block}
+    end
+
+    # Define a block to be called when a directory is encountered
+    #
+    # Provide one or more patterns to match the directory's basename against
+    #
+    # @example All directories
+    #   directory { |dir| ... }
+    # @example Directories matching <tt>/lib/</tt>
+    #   directory /lib/ { |dir| ... }
+    # @example Directories matching <tt>/lib/</tt> or <tt>/spec/</tt>
+    #   directories /lib/, /spec/ { |dir| ... }
+    #
+    # @param [Array] patterns Limit the yielded directory paths only to those matching the provided pattern(s)
+    # @yield [path] Full, absolute directory path
+    # @raise ArgumentError When no block provided
+    def directory(*patterns, &block)
+      raise ArgumentError, "a block is required" unless block_given?
+      @directory_blocks << {:pattern => patterns.flatten, :block => block}
+    end
+
+    alias_method :files, :file
+    alias_method :directories, :directory
+
+    private
+
+    # Yields <tt>self</tt> to allow the user to define file/directory blocks, and then
+    # crawl the root directory, dispatching the user's defined blocks as each
+    # file type is encountered
     def crawl(&block)
       yield self
 
-      Find.find(root) do |current|
+      Find.find(@root) do |current|
         if File.file?(current)
           dispatch_file(current)
         elsif File.directory?(current)
@@ -65,38 +109,11 @@ module Wriggle
       end
     end
 
-    # Define a block to be called when a file is encountered
-    #
-    # Provide one or more extensions to limit the files yielded.
-    #
-    # == Examples:
-    #   file :rb { |file| ... }
-    #   file :rb, :rdoc { |file| ... }
-    #   file %w(mpeg mpeg wmv avi mkv) { |file| ... }
-    #
-    # @raise ArgumentError When no block provided
-    def file(*extensions, &block)
-      raise ArgumentError, "a block is required" unless block_given?
-      file_blocks << {:ext => extensions.flatten, :block => block}
-    end
-
-    # Define a block to be called when a directory is encountered
-    #
-    # @raise ArgumentError When no block provided
-    def directory(*patterns, &block)
-      raise ArgumentError, "a block is required" unless block_given?
-      directory_blocks << {:pattern => patterns.flatten, :block => block}
-    end
-
-    alias_method :files, :file
-    alias_method :directories, :directory
-
-    private
-
+    # Called whenever <tt>crawl</tt> encounters a file
     def dispatch_file(path)
       extension = File.extname(path)
 
-      file_blocks.each do |group|
+      @file_blocks.each do |group|
         if group[:ext].empty?
           group[:block].call(path)
         else
@@ -109,12 +126,13 @@ module Wriggle
       end
     end
 
+    # Called whenever <tt>crawl</tt> encounters a file
     def dispatch_directory(path)
-      directory_blocks.each do |group|
+      @directory_blocks.each do |group|
         if group[:pattern].empty?
           group[:block].call(path)
         else
-          # Requested only directories matching a certain pattern
+          # User requested only directories matching a certain pattern
           # Check if any of the patterns match the directory name
           base = File.basename(path)
           if group[:pattern].any? { |v| base =~ v }
