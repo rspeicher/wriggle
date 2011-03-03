@@ -24,7 +24,8 @@ A simple directory crawler DSL.
         Dir.rmdir(path) unless Dir.entries(path).length > 2
       end
 
-      # Print a list of directories with "foo" in the path
+      # Print a list of directories matching "foo"
+      # NOTE: Matches "/baz/bar/foo" and "/foo" but not "/foo/bar/baz"
       w.directory /foo/ do |path|
         puts path
       end

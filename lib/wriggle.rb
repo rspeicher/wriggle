@@ -26,7 +26,8 @@ require 'find'
 #       Dir.rmdir(path) unless Dir.entries(path).length > 2
 #     end
 #
-#     # Print a list of directories with "foo" in the path
+#     # Print a list of directories matching "foo"
+#     # NOTE: Matches "/baz/bar/foo" and "/foo" but not "/foo/bar/baz"
 #     w.directory /foo/ do |path|
 #       puts path
 #     end
@@ -115,7 +116,8 @@ module Wriggle
         else
           # Requested only directories matching a certain pattern
           # Check if any of the patterns match the directory name
-          if group[:pattern].any? { |v| path =~ v }
+          base = File.basename(path)
+          if group[:pattern].any? { |v| base =~ v }
             group[:block].call(path)
           end
         end

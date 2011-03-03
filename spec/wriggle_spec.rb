@@ -101,7 +101,7 @@ describe Wriggle, "#directory" do
     actual.should include("#{TemporaryFiles.path}/app/controllers/members")
     actual.should include("#{TemporaryFiles.path}/app/helpers/members")
     actual.should include("#{TemporaryFiles.path}/app/views/members")
-    actual.should include("#{TemporaryFiles.path}/app/views/members/wishlists")
+    actual.should_not include("#{TemporaryFiles.path}/app/views/members/wishlists")
     actual.should include("#{TemporaryFiles.path}/app/models")
     actual.should_not include("#{TemporaryFiles.path}/app/views/items")
     actual.should_not include("#{TemporaryFiles.path}/app/views/layouts")
