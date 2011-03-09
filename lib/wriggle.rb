@@ -9,15 +9,27 @@ require 'find'
 #   require 'wriggle'
 #
 #   wriggle '/path/to/files' do |w|
+#     # Print a list of files
+#     w.file { |path| puts path }
+#
+#     # Build a list of Rails controller files
+#     controllers = []
+#     w.files /_controller\.rb/ do |path|
+#       controllers << path
+#     end
+#
+#     # Print the path of any file named "spec_helper.rb"
+#     w.file 'spec_helper.rb' { |path| puts path }
+#
 #     # Build an array of Ruby code files
 #     ruby_files = []
-#     w.file :rb do |path|
+#     w.extension :rb do |path|
 #       ruby_files << path
 #     end
 #
 #     # Build an array of video files
 #     video_files = []
-#     w.files %w(mpg mpeg wmv avi mkv) do |path|
+#     w.extensions %w(mpg mpeg wmv avi mkv) do |path|
 #       video_files << path
 #     end
 #
@@ -28,9 +40,7 @@ require 'find'
 #
 #     # Print a list of directories matching "foo"
 #     # NOTE: Matches "/baz/bar/foo" and "/foo" but not "/foo/bar/baz"
-#     w.directory /foo/ do |path|
-#       puts path
-#     end
+#     w.directory /foo/ { |path| puts path }
 #   end
 module Wriggle
   # Crawl the given +path+
@@ -47,6 +57,7 @@ module Wriggle
       @root             = root
       @file_blocks      = []
       @directory_blocks = []
+      @extension_blocks = []
 
       crawl(&block)
     end
@@ -55,19 +66,12 @@ module Wriggle
     #
     # @example All files
     #   file { |file| ... }
-    # @example All <tt>.rb</tt> files
-    #   file '.rb' { |file| ... }
-    # @example All <tt>.rb</tt> or <tt>.erb</tt> files
-    #   files :rb, :erb { |file| ... }
-    # @example All video files
-    #   files %w(mpeg mpeg wmv avi mkv) { |file| ... }
     #
-    # @param [Array] extensions Limit the yielded file paths to the provided extensions
     # @yield [path] Full, absolute file path
     # @raise ArgumentError When no block provided
-    def file(*extensions, &block)
+    def file(*names, &block)
       raise ArgumentError, "a block is required" unless block_given?
-      @file_blocks << {:ext => extensions.flatten, :block => block}
+      @file_blocks << {:names => names.flatten, :block => block}
     end
 
     # Define a block to be called when a directory is encountered
@@ -89,8 +93,28 @@ module Wriggle
       @directory_blocks << {:pattern => patterns.flatten, :block => block}
     end
 
-    alias_method :files, :file
+    # Define a block to be called when a file of a certain extension is encountered
+    #
+    # @example All <tt>.rb</tt> files
+    #   extension '.rb' { |file| ... }
+    # @example All <tt>.rb</tt> or <tt>.erb</tt> files
+    #   extensions :rb, :erb { |file| ... }
+    # @example All video files
+    #   extensions %w(mpeg mpeg wmv avi mkv) { |file| ... }
+    #
+    # @param [Array] extensions Limit the yielded file paths to the provided extensions
+    # @yield [path] Full, absolute file path
+    # @raise ArgumentError When no block provided
+    # @raise ArgumentError When no extension argument provided
+    def extension(*extensions, &block)
+      raise ArgumentError, "a block is required" unless block_given?
+      raise ArgumentError, "at least one extension is required" unless extensions.length > 0
+      @extension_blocks << {:ext => extensions.flatten, :block => block}
+    end
+
+    alias_method :files,       :file
     alias_method :directories, :directory
+    alias_method :extensions,  :extension
 
     private
 
@@ -110,18 +134,26 @@ module Wriggle
     end
 
     # Called whenever <tt>crawl</tt> encounters a file
+    #
+    # Handles both <tt>file_blocks</tt> and <tt>extension_blocks</tt>.
     def dispatch_file(path)
       extension = File.extname(path)
 
       @file_blocks.each do |group|
-        if group[:ext].empty?
+        if group[:names].empty?
           group[:block].call(path)
         else
-          # Requested specific extensions only
-          # Check if any of the extensions match the current file's extension (with or without the period)
-          if group[:ext].any? { |v| v.to_s == extension or v.to_s == extension[1..-1] }
+          filename = File.basename(path)
+          if group[:names].any? { |v| (v.is_a?(String) and filename == v) or (v.is_a?(Regexp) and filename =~ v) }
             group[:block].call(path)
           end
+        end
+      end
+
+      @extension_blocks.each do |group|
+        # Check if any of the extensions match the current file's extension (with or without the period)
+        if group[:ext].any? { |v| v.to_s == extension or v.to_s == extension[1..-1] }
+          group[:block].call(path)
         end
       end
     end
