@@ -41,14 +41,22 @@ A simple directory crawler DSL.
       w.directory /foo/ { |path| puts path }
     end
 
-## Note on Patches/Pull Requests
+## Install
 
-* Fork
-* Code
-* Commit
-* Push
-* Pull Request
+    gem install wriggle
+
+## Documentation
+
+[API Docs](http://rdoc.info/github/tsigo/wriggle/master/Wriggle)
+
+## Contributing
+
+Pull requests and bug reports are very appreciated.
+
+* [Bug reports](https://github.com/tsigo/wriggle/issues)
+* Patches: Fork and send a pull request.
+  * Include specs where it makes sense.
 
 ## Copyright
 
-Copyright (c) 2010 Robert Speicher. See LICENSE for details.
+Copyright (c) 2011 Robert Speicher. See LICENSE for details.
