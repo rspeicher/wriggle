@@ -1,4 +1,4 @@
-# Wriggle
+# Wriggle ![](http://stillmaintained.com/tsigo/wriggle.png)
 
 A simple directory crawler DSL.
 
