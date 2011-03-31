@@ -158,7 +158,7 @@ module Wriggle
       end
     end
 
-    # Called whenever <tt>crawl</tt> encounters a file
+    # Called whenever <tt>crawl</tt> encounters a directory
     def dispatch_directory(path)
       @directory_blocks.each do |group|
         if group[:pattern].empty?
