@@ -17,7 +17,7 @@ A simple directory crawler DSL.
       end
 
       # Print the path of any file named "spec_helper.rb"
-      w.file 'spec_helper.rb' { |path| puts path }
+      w.file('spec_helper.rb') { |path| puts path }
 
       # Build an array of Ruby code files
       ruby_files = []
@@ -38,7 +38,7 @@ A simple directory crawler DSL.
 
       # Print a list of directories matching "foo"
       # NOTE: Matches "/baz/bar/foo" and "/foo" but not "/foo/bar/baz"
-      w.directory /foo/ { |path| puts path }
+      w.directory(/foo/) { |path| puts path }
     end
 
 ## Install

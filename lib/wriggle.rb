@@ -19,7 +19,7 @@ require 'find'
 #     end
 #
 #     # Print the path of any file named "spec_helper.rb"
-#     w.file 'spec_helper.rb' { |path| puts path }
+#     w.file('spec_helper.rb') { |path| puts path }
 #
 #     # Build an array of Ruby code files
 #     ruby_files = []
@@ -40,7 +40,7 @@ require 'find'
 #
 #     # Print a list of directories matching "foo"
 #     # NOTE: Matches "/baz/bar/foo" and "/foo" but not "/foo/bar/baz"
-#     w.directory /foo/ { |path| puts path }
+#     w.directory(/foo/) { |path| puts path }
 #   end
 module Wriggle
   # Crawl the given +path+
@@ -81,9 +81,9 @@ module Wriggle
     # @example All directories
     #   directory { |dir| ... }
     # @example Directories matching <tt>/lib/</tt>
-    #   directory /lib/ { |dir| ... }
+    #   directory(/lib/) { |dir| ... }
     # @example Directories matching <tt>/lib/</tt> or <tt>/spec/</tt>
-    #   directories /lib/, /spec/ { |dir| ... }
+    #   directories(/lib/, /spec/) { |dir| ... }
     #
     # @param [Array] patterns Limit the yielded directory paths only to those matching the provided pattern(s)
     # @yield [path] Full, absolute directory path
@@ -96,11 +96,11 @@ module Wriggle
     # Define a block to be called when a file of a certain extension is encountered
     #
     # @example All <tt>.rb</tt> files
-    #   extension '.rb' { |file| ... }
+    #   extension('.rb') { |file| ... }
     # @example All <tt>.rb</tt> or <tt>.erb</tt> files
-    #   extensions :rb, :erb { |file| ... }
+    #   extensions(:rb, :erb) { |file| ... }
     # @example All video files
-    #   extensions %w(mpeg mpeg wmv avi mkv) { |file| ... }
+    #   extensions(%w(mpeg mpeg wmv avi mkv)) { |file| ... }
     #
     # @param [Array] extensions Limit the yielded file paths to the provided extensions
     # @yield [path] Full, absolute file path
