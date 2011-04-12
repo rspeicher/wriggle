@@ -99,6 +99,29 @@ Pull requests and bug reports are very appreciated.
 * Patches: Fork and send a pull request.
   * Include specs where it makes sense.
 
+### Developer Quickstart
+
+Once you've cloned this repository or your own fork, these steps should
+adequately prepare you to begin contributing to the project.
+
+#### Create a new RVM gemset (optional)
+
+    rvm gemset create wriggle
+    rvm gemset use wriggle
+
+#### Bundler
+
+First, [install Bundler](https://github.com/carlhuda/bundler) if you haven't
+already. Then install the development dependencies.
+
+    bundle install
+
+#### Run Specs
+
+    rake spec
+
+If everything passes, you're good to go!
+
 ## Copyright
 
 Copyright (c) 2011 Robert Speicher. See LICENSE for details.
