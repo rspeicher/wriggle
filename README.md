@@ -1,9 +1,10 @@
-# Wriggle
+# Wriggle ![](http://stillmaintained.com/tsigo/wriggle.png)
 
 A simple directory crawler DSL.
 
 ## Usage
 
+    ``` ruby
     require 'wriggle'
 
     wriggle '/path/to/files' do |w|
@@ -40,6 +41,7 @@ A simple directory crawler DSL.
       # NOTE: Matches "/baz/bar/foo" and "/foo" but not "/foo/bar/baz"
       w.directory(/foo/) { |path| puts path }
     end
+    ```
 
 ## Caveats
 
