@@ -47,6 +47,34 @@ wriggle '/path/to/files' do |w|
 end
 ```
 
+### Path objects
+
+The object yielded to each block is a custom `Path` object which looks like a
+normal `String` object, but inherits from Ruby's `Pathname` [standard
+lib](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/pathname/rdoc/Pathname.html).
+This provides you with some convenient shortcuts for working with paths:
+
+``` ruby
+
+require 'wriggle'
+
+p = Wriggle::Path.new('lib/wriggle.rb')
+
+p.file?    # => true
+p.symlink? # => false
+p.size     # => 1448
+p.basename # => wriggle.rb
+p.extname  # => ".rb"
+p.split    # => [lib, wriggle.rb]
+
+p == 'lib/wriggle.rb' # => true
+p.inspect             # => "lib/wriggle.rb"
+```
+
+See the [Pathname
+docs](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/pathname/rdoc/Pathname.html)
+for all of the methods available.
+
 ## Caveats
 
 Wriggle is a wrapper around Ruby's standard library,

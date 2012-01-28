@@ -1,6 +1,8 @@
 require 'find'
 
+require 'wriggle/path'
 require 'wriggle/wriggle'
+
 # = Wriggle
 #
 # A simple directory crawler DSL.

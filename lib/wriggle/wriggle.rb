@@ -73,9 +73,9 @@ module Wriggle
 
       Find.find(@root) do |current|
         if File.file?(current)
-          dispatch_file(current)
+          dispatch_file(Path.new(current))
         elsif File.directory?(current)
-          dispatch_directory(current)
+          dispatch_directory(Path.new(current))
         end
       end
     end

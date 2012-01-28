@@ -32,6 +32,12 @@ module Wriggle
       expect { wriggle(TemporaryFiles.path) { |w| w.file } }.to raise_error(ArgumentError, /a block is required/)
     end
 
+    it "should yield Path objects" do
+      wriggle(TemporaryFiles.path) do |w|
+        w.file(/members_controller\.rb/) { |p| p.should be_kind_of(Path) }
+      end
+    end
+
     it "should only include files matching a pattern when given a regex argument" do
       actual = []
       wriggle(TemporaryFiles.path) do |w|
@@ -81,6 +87,12 @@ module Wriggle
   describe Wriggle, "#directory" do
     it "should raise an ArgumentError when not given a block" do
       expect { wriggle(TemporaryFiles.path) { |w| w.directory } }.to raise_error(ArgumentError, /a block is required/)
+    end
+
+    it "should yield Path objects" do
+      wriggle(TemporaryFiles.path) do |w|
+        w.directory(/app\/models/) { |p| p.should be_kind_of(Path) }
+      end
     end
 
     it "should not include files when only a directory block is provided" do
