@@ -47,6 +47,27 @@ wriggle '/path/to/files' do |w|
 end
 ```
 
+### Custom Yields
+
+The main `wriggle` block accepts a `yield` option which, if given, will create a
+new object of the specified class before yielding it to the defined block(s).
+
+Any object which accepts a String as its only required argument to `new` can be
+used.
+
+For example, if you'd prefer the convenience of working with
+[Pathname](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/pathname/rdoc/Pathname.html)
+instead of a regular String, you could do the following:
+
+``` ruby
+require 'wriggle'
+require 'pathname'
+
+wriggle '/path/to/files', yield: Pathname do |w|
+  w.file { |path| puts path.extname }
+end
+```
+
 ## Caveats
 
 Wriggle is a wrapper around Ruby's standard library,

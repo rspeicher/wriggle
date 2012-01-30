@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pathname'
 
 module Wriggle
   describe Wriggle do
@@ -24,6 +25,18 @@ module Wriggle
 
     it "should alias 'extensions' to 'extension'" do
       expect { wriggle(TemporaryFiles.path) { |w| w.extensions } }.to_not raise_error(NoMethodError)
+    end
+
+    it "should yield a String by default" do
+      wriggle(TemporaryFiles.path) do |w|
+        w.file('members_controller.rb') { |p| p.should be_kind_of(String) }
+      end
+    end
+
+    it "should yield a custom object when requested" do
+      wriggle(TemporaryFiles.path, :yield => Pathname) do |w|
+        w.file('members_controller.rb') { |p| p.should be_kind_of(Pathname) }
+      end
     end
   end
 

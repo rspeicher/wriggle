@@ -1,10 +1,11 @@
 module Wriggle
   class Wriggle
-    def initialize(root, &block)
+    def initialize(root, options = {}, &block)
       @root             = root
       @file_blocks      = []
       @directory_blocks = []
       @extension_blocks = []
+      @yield            = options.delete(:yield) || String
 
       crawl(&block)
     end
@@ -72,10 +73,13 @@ module Wriggle
       yield self
 
       Find.find(@root) do |current|
+        # Yield a custom object if requested
+        obj = (@yield == String) ? current : @yield.new(current)
+
         if File.file?(current)
-          dispatch_file(current)
+          dispatch_file(obj)
         elsif File.directory?(current)
-          dispatch_directory(current)
+          dispatch_directory(obj)
         end
       end
     end
