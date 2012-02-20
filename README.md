@@ -1,7 +1,5 @@
 # Wriggle 
 
-![Activity Status](http://stillmaintained.com/tsigo/wriggle.png)
-
 [![Build Status](https://secure.travis-ci.org/tsigo/wriggle.png?branch=master)](http://travis-ci.org/tsigo/wriggle)
 
 A simple directory crawler DSL.
