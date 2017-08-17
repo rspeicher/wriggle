@@ -1,6 +1,6 @@
 # Wriggle 
 
-[![Build Status](https://secure.travis-ci.org/tsigo/wriggle.png?branch=master)](http://travis-ci.org/tsigo/wriggle)
+[![Build Status](https://secure.travis-ci.org/rspeicher/wriggle.png?branch=master)](http://travis-ci.org/rspeicher/wriggle)
 
 A simple directory crawler DSL.
 
@@ -93,13 +93,13 @@ of the `wriggle` block, loop through them to print each entry.
 
 ## Documentation
 
-[API Docs](http://rdoc.info/github/tsigo/wriggle/master/Wriggle)
+[API Docs](http://rdoc.info/github/rspeicher/wriggle/master/Wriggle)
 
 ## Contributing
 
 Pull requests and bug reports are very appreciated.
 
-* [Bug reports](https://github.com/tsigo/wriggle/issues)
+* [Bug reports](https://github.com/rspeicher/wriggle/issues)
 * Patches: Fork and send a pull request.
   * Include specs where it makes sense.
 
