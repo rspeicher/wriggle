@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Robert Speicher"]
   s.email       = ["rspeicher@gmail.com"]
-  s.homepage    = "http://github.com/rspeicher/wriggle"
+  s.homepage    = "https://github.com/rspeicher/wriggle"
   s.summary     = %q{A simple directory crawler DSL}
   s.description = %q{A simple directory crawler DSL.}
 
